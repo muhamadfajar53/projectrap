@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
-  resources :posts
+  get 'search', to: "search#index"
+  get 'user/profile'
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
+  get '/u/:id', to: 'user#profile', as: 'user'
+
+  # /posts/1/comments/4
+  resources :posts do
+    resources :comments
+  end
+
+
+
   get 'about', to: 'pages#about'
 
   root "pages#home"
