@@ -14,15 +14,28 @@
       password:'password', 
       password_confirmation: "password",
       name: 'Ara ara')
-  
 
-    10.times do |x|
-      post = Post.create(title: "Title #{x}", 
-                  body:"Body #{x} Words go here idk", 
-                  user_id: User.first.id)
-    5.times do |y|
-      Comment.create(body: "Comment #{y}", 
-                    user_id: User.first.id, 
-                    post_id: post.id)
+posts = []
+comments = []
+  
+    elapsed = Benchmark.measure do
+      100.times do |x|
+        puts "Creating post #{x}"
+        post = Post.new(title: "Title #{x}", 
+                    body:"Body #{x} Words go here idk", 
+                    user_id: User.first.id)
+        post.push(post)
+      2.times do |y|
+        puts "Creating post #{y} for post #{x}"
+        comment = post.comments.new(body: "Comment #{y}", 
+                      user_id: User.first.id, 
+                      post_id: post.id)
+        comments.push(comment)
     end
   end
+end
+
+Post.import(posts)
+Comment.import(comments)
+
+puts "Created #{post.count} post and #{comments.count} comments in #{elapsed.real} seconds"

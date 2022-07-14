@@ -3,7 +3,7 @@ class AdminController < ApplicationController
   end
 
   def posts
-    @post = Post.all.includes(:user, :comments)
+    @post = Post.all.includes(:user)
   end
 
   def comments
